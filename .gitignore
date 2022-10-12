@@ -127,3 +127,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Dataset folders and archives
+.data
+data/
+.imagenette2
+imagenette2/
+imagenette*.*
+.results
+results/

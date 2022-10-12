@@ -1,0 +1,9 @@
+Seed: 42
+
+Dataset:
+    psnr_border : 40
+    target_dir : './data/dataset'
+    train_dir : './imagenette2/train'
+    val_dir : './imagenette2/val'
+    original_wm : 'm9yQ5RE1qaiaAMpb'
+    breaking_wm : 'WYbBtHEvXRndLRwg'
