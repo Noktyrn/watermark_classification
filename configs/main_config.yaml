@@ -1,6 +1,6 @@
-Seed: 42
+seed: 42
 
-Dataset:
+dataset:
     psnr_border : 40
     target_dir : './data/dataset'
     train_dir : './imagenette2/train'
