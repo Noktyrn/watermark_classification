@@ -17,13 +17,17 @@ def prep_resnet(model):
     model.fc = nn.Linear(512, 3)
     return model
 
+def prep_resnext(model):
+    model.fc = nn.Linear(2048, 3)
+    return model
+
 def prep_vit(model):
     model.heads.head = nn.Linear(768, 3)
     return model
 
 PREP_FUNCTIONS_DICT = {
     'ResNet': prep_resnet,
-    'ResNext': prep_resnet,
+    'ResNext': prep_resnext,
     'ViT': prep_vit
 }
 

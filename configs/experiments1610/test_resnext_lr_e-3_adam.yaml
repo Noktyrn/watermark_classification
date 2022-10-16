@@ -1,14 +1,14 @@
 dataset_path : 'data/dataset'
-model_name : 'ResNet'
+model_name : 'ResNext'
 head_only : false
-lr_base : 1.e-4
+lr_base : 1.e-3
 lr_step : 0.999
-n_epochs: 10
+n_epochs: 12
 train_proportion: 0.8
 shuffle: true
 batch_size: 32
 
 optimizer:
-  name: 'SGD'
+  name: 'Adam'
   params:
-    momentum: 0.9
+    betas: [0.9, 0.999]
