@@ -2,8 +2,9 @@ seed: 42
 
 dataset:
     psnr_border : 40
-    target_dir : './data/dataset'
+    ber_border : 0.25
+    target_dir : './data/dataset_new'
     train_dir : './imagenette2/train'
     val_dir : './imagenette2/val'
-    original_wm : 'm9yQ5RE1qaiaAMpb'
-    breaking_wm : 'WYbBtHEvXRndLRwg'
+    wm_len_bytes : 4
+    methods : ['dwtDctSvd', 'dwtDct']

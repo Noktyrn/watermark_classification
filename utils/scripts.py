@@ -21,11 +21,24 @@ def PSNR(original, compressed):
     psnr = 20 * log10(max_pixel / sqrt(mse))
     return psnr
 
+def BER(a, b):
+    """
+    Counts the bit error rate (BER) between the given sequences a and b
+    """
+
+    ber = 0
+    for x, y in zip(a, b):
+        if x != y:
+            ber += 1
+    
+    return ber / len(a)
+
 
 def show(dataset, N=5, labels=None, figsize=(20, 20)):
     """ 
     Shows random N samples from the dataset
     """
+    
     idxs = np.random.randint(0, len(dataset)-1, N)
 
     _, axs = plt.subplots(ncols=len(idxs), squeeze=False, figsize=figsize)

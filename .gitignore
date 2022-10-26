@@ -136,3 +136,6 @@ imagenette2/
 imagenette*.*
 .results
 results/
+
+# Test notebooks
+test*.ipynb
