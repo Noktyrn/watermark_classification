@@ -1,0 +1,14 @@
+dataset_path : 'data/dataset_new'
+model_name : 'ViT'
+head_only : false
+lr_base : 1.e-3
+lr_step : 0.999
+n_epochs: 16
+train_proportion: 0.8
+shuffle: true
+batch_size: 32
+
+optimizer:
+  name: 'RMSProp'
+  params:
+    alpha: 0.99
