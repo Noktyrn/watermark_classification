@@ -1,0 +1,11 @@
+dataset:
+  ber_border: 0.2
+  methods:
+  - dwtDctSvd
+  - dwtDct
+  psnr_border: 40
+  target_dir: ./data/dataset_new
+  train_dir: ./imagenette2/train
+  val_dir: ./imagenette2/val
+  wm_len_bytes: 4
+seed: 42

@@ -1,16 +1,18 @@
-from torchvision.models import resnet18, resnext50_32x4d, vit_b_16
+from torchvision.models import resnet18, resnext50_32x4d, vit_b_16, mobilenet_v3_large
 from torch import nn
 
 MODELS_DICT = {
     'ResNet': resnet18,
     'ResNext': resnext50_32x4d,
-    'ViT': vit_b_16
+    'ViT': vit_b_16,
+    'MobileNetV3': mobilenet_v3_large
 }
 
 UNFREEZE_LAYERS_DICT = {
     'ResNet': ['layer4', 'fc'],
     'ResNext': ['layer4', 'fc'],
-    'ViT': ['head']
+    'ViT': ['head'],
+    'MobileNetV3': ['classifier']
 }
 
 def prep_resnet(model):
@@ -25,10 +27,15 @@ def prep_vit(model):
     model.heads.head = nn.Linear(768, 3)
     return model
 
+def prep_mobilenet(model):
+    model.classifier[3] = nn.Linear(1280, 3)
+    return model
+
 PREP_FUNCTIONS_DICT = {
     'ResNet': prep_resnet,
     'ResNext': prep_resnext,
-    'ViT': prep_vit
+    'ViT': prep_vit,
+    'MobileNetV3': prep_mobilenet
 }
 
 def get_model(name):

@@ -8,6 +8,8 @@ from bitstring import BitArray
 from argparse import ArgumentParser
 import yaml
 
+WM_LENGTHS = [4, 5, 6, 7, 8]
+
 parser = ArgumentParser()
 parser.add_argument("-c", "--file", dest="filename",
                     help="YAML-config for the dataset creation", metavar="FILE")
@@ -22,7 +24,6 @@ random.seed(data['seed'])
 TRAIN_DIR = data['dataset']['train_dir']
 VAL_DIR = data['dataset']['val_dir']
 
-LEN_BYTES = data['dataset'].get('wm_len_bytes', 4)
 METHODS = data['dataset']['methods']
 
 PSNR_BORDER = data['dataset'].get('psnr_border', 40)
@@ -41,11 +42,6 @@ with open(DATASET_FOLDER + '/' + "conf.yaml", 'w') as yamlfile:
 
 DIM = (256, 256)
 
-encoder = WatermarkEncoder()
-original_decoder = WatermarkDecoder('bytes', LEN_BYTES * 8)
-breaker = WatermarkEncoder()
-breaker_decoder = WatermarkDecoder('bytes', LEN_BYTES * 8)
-
 count_good = 0
 count_bad = 0
 
@@ -56,10 +52,18 @@ for save_mode, dir in zip(['val', 'train'], [VAL_DIR, TRAIN_DIR]):
 
         for file in files:
             if file[-5:] == '.JPEG':
-                ORIGINAL_WATERMARK = ''.join(random.choice('01') for _ in range(LEN_BYTES * 8))
+                ENC_LEN = random.choice(WM_LENGTHS)
+                DEC_LEN = random.choice(WM_LENGTHS)
+
+                encoder = WatermarkEncoder()
+                original_decoder = WatermarkDecoder('bytes', ENC_LEN * 8)
+                breaker = WatermarkEncoder()
+                breaker_decoder = WatermarkDecoder('bytes', DEC_LEN * 8)
+
+                ORIGINAL_WATERMARK = ''.join(random.choice('01') for _ in range(ENC_LEN * 8))
                 encoder.set_watermark('bytes', BitArray(bin=ORIGINAL_WATERMARK).tobytes())
 
-                BREAKING_WATERMARK = ''.join(random.choice('01') for _ in range(LEN_BYTES * 8))
+                BREAKING_WATERMARK = ''.join(random.choice('01') for _ in range(DEC_LEN * 8))
                 breaker.set_watermark('bytes', BitArray(bin=BREAKING_WATERMARK).tobytes())
 
                 bgr = cv2.imread(os.path.join(root, file))
@@ -84,4 +88,4 @@ for save_mode, dir in zip(['val', 'train'], [VAL_DIR, TRAIN_DIR]):
                 else:
                     count_bad += 1
 
-print("The number of images with PSNR > {}: {} \nThe number of other images {}".format(PSNR_BORDER, count_good, count_bad))
+print("The number of images with PSNR > {} and BER > {}: {} \nThe number of other images {}".format(PSNR_BORDER, BER_BORDER,count_good, count_bad))
